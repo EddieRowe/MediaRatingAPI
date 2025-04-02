@@ -64,9 +64,11 @@ namespace MediaRatingAPI.Controllers
             }
 
             media.Title = updatedMedia.Title;
-            //media.ReleaseDate = updatedMedia.ReleaseDate;
             media.Format = updatedMedia.Format;
-            //media.Rating = updatedMedia.Rating;
+            media.MediaDetails = updatedMedia.MediaDetails;
+            media.DistributorId = updatedMedia.DistributorId;
+            media.Genres = updatedMedia.Genres;
+
 
             await _context.SaveChangesAsync();
 
