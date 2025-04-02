@@ -8,6 +8,8 @@ namespace MediaRatingAPI.Data
         public DbSet<Media> Medias => Set<Media>();
         public DbSet<MediaDetails> MediaDetails => Set<MediaDetails>();
 
+        public DbSet<Distributor> Distributors => Set<Distributor>();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,41 +20,31 @@ namespace MediaRatingAPI.Data
                 {
                     Id = 1,
                     Title = "Bookworm",
-                    //ReleaseDate = DateTime.Parse("2024-08-29"),
-                    Format = "Film",
-                    //Rating = 9
+                    Format = "Film"
                 },
                 new Media
                 {
                     Id = 2,
                     Title = "Invincible (Season 1)",
-                    //ReleaseDate = DateTime.Parse("2021-03-25"),
-                    Format = "TV",
-                    //Rating = 10
+                    Format = "TV"
                 },
                 new Media
                 {
                     Id = 3,
                     Title = "Flow",
-                    //ReleaseDate = DateTime.Parse("2024-10-30"),
-                    Format = "Film",
-                    //Rating = 9
+                    Format = "Film"
                 },
                 new Media
                 {
                     Id = 4,
                     Title = "Hot Fuzz",
-                    //ReleaseDate = DateTime.Parse("2007-02-16"),
-                    Format = "Film",
-                    //Rating = 10
+                    Format = "Film"
                 },
                 new Media
                 {
                     Id = 5,
                     Title = "Ar y Ffin",
-                    //ReleaseDate = DateTime.Parse("2024-12-29"),
-                    Format = "TV",
-                    //Rating = 7
+                    Format = "TV"
                 }
             );
         }
