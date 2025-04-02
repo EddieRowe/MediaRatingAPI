@@ -17,7 +17,9 @@ namespace MediaRatingAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Media>>> GetMedias()
         {
-            return Ok(await _context.Medias.ToListAsync());
+            return Ok(await _context.Medias
+                .Include(m => m.MediaDetails)
+                .ToListAsync());
         }
 
         [HttpGet("{id}")]
