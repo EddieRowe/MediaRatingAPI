@@ -1,4 +1,5 @@
 ﻿using MediaRatingAPI.Data;
+using MediaRatingAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -55,9 +56,9 @@ namespace MediaRatingAPI.Controllers
             }
 
             media.Title = updatedMedia.Title;
-            media.ReleaseDate = updatedMedia.ReleaseDate;
+            //media.ReleaseDate = updatedMedia.ReleaseDate;
             media.Format = updatedMedia.Format;
-            media.Rating = updatedMedia.Rating;
+            //media.Rating = updatedMedia.Rating;
 
             await _context.SaveChangesAsync();
 
