@@ -65,5 +65,22 @@ namespace MediaRatingAPI.Controllers
             medias.Add(newMedia);
             return CreatedAtAction(nameof(GetMediaById), new { id = newMedia.Id }, newMedia);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateMedia(int id, Media updatedMedia)
+        {
+            var media = medias.FirstOrDefault(x => x.Id == id);
+            if (media == null)
+            {
+                return NotFound();
+            }
+
+            media.Title = updatedMedia.Title;
+            media.ReleaseDate = updatedMedia.ReleaseDate;
+            media.Format = updatedMedia.Format;
+            media.Rating = updatedMedia.Rating;
+
+            return NoContent();
+        }
     }
 }
