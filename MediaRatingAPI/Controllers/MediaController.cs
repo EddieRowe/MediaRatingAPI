@@ -1,50 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediaRatingAPI.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MediaRatingAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MediaController : ControllerBase
+    public class MediaController(MediaDbContext context) : ControllerBase
     {
-        static private List<Media> medias = new List<Media>
-        {
-            new Media
-            {
-                Id = 1,
-                Title = "Bookworm",
-                ReleaseDate = DateTime.Parse("2024-08-29"),
-                Format = "Film",
-                Rating = 9
-            },
-            new Media
-            {
-                Id = 2,
-                Title = "Invincible Season 1",
-                ReleaseDate = DateTime.Parse("2021-03-25"),
-                Format = "TV",
-                Rating = 10
-            },
-            new Media
-            {
-                Id = 3,
-                Title = "Flow",
-                ReleaseDate = DateTime.Parse("2024-10-30"),
-                Format = "Film",
-                Rating = 9
-            }
-        };
+        // Injected context with primary constructor
+        private readonly MediaDbContext _context = context;
 
         [HttpGet]
-        public ActionResult<List<Media>> GetMedias()
+        public async Task<ActionResult<List<Media>>> GetMedias()
         {
-            return Ok(medias);
+            return Ok(await _context.Medias.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Media> GetMediaById(int id)
+        public async Task<ActionResult<Media>> GetMediaById(int id)
         {
-            var media = medias.FirstOrDefault(x => x.Id == id);
+            var media = await _context.Medias.FindAsync(id);
             if (media == null)
             {
                 return NotFound();
@@ -54,22 +32,23 @@ namespace MediaRatingAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Media> AddMedia(Media newMedia)
+        public async Task<ActionResult<Media>> AddMedia(Media newMedia)
         {
             if (newMedia == null)
             {
                 return BadRequest();
             }
 
-            newMedia.Id = medias.Max(m => m.Id) + 1;
-            medias.Add(newMedia);
+            _context.Medias.Add(newMedia);
+            await _context.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetMediaById), new { id = newMedia.Id }, newMedia);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMedia(int id, Media updatedMedia)
+        public async Task<IActionResult> UpdateMedia(int id, Media updatedMedia)
         {
-            var media = medias.FirstOrDefault(x => x.Id == id);
+            var media = await _context.Medias.FindAsync(id);
             if (media == null)
             {
                 return NotFound();
@@ -80,19 +59,22 @@ namespace MediaRatingAPI.Controllers
             media.Format = updatedMedia.Format;
             media.Rating = updatedMedia.Rating;
 
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteMedia(int id)
+        public async Task<IActionResult> DeleteMedia(int id)
         {
-            var media = medias.FirstOrDefault(x => x.Id == id);
+            var media = await _context.Medias.FindAsync(id);
             if (media == null)
             {
                 return NotFound();
             }
 
-            medias.Remove(media);
+            _context.Medias.Remove(media);
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }
