@@ -9,6 +9,7 @@ namespace MediaRatingAPI.Data
         public DbSet<MediaDetails> MediaDetails => Set<MediaDetails>();
 
         public DbSet<Distributor> Distributors => Set<Distributor>();
+        public DbSet<Genre> Genres => Set<Genre>();
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

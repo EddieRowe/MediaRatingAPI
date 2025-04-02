@@ -10,5 +10,6 @@
         public Distributor? Distributor { get; set; }
         
         public MediaDetails? MediaDetails { get; set; }
+        public List<Genre>? Genres { get; set; }
     }
 }

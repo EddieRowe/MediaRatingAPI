@@ -20,6 +20,7 @@ namespace MediaRatingAPI.Controllers
             return Ok(await _context.Medias
                 .Include(m => m.MediaDetails)
                 .Include(m => m.Distributor)
+                .Include(m => m.Genres)
                 .ToListAsync());
         }
 
