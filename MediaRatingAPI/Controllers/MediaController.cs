@@ -27,7 +27,11 @@ namespace MediaRatingAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Media>> GetMediaById(int id)
         {
-            var media = await _context.Medias.FindAsync(id);
+            var media = await _context.Medias
+                .Include(m => m.MediaDetails)
+                .Include(m => m.Distributor)
+                .Include(m => m.Genres)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (media == null)
             {
                 return NotFound();
