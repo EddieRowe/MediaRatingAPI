@@ -82,5 +82,18 @@ namespace MediaRatingAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMedia(int id)
+        {
+            var media = medias.FirstOrDefault(x => x.Id == id);
+            if (media == null)
+            {
+                return NotFound();
+            }
+
+            medias.Remove(media);
+            return NoContent();
+        }
     }
 }
