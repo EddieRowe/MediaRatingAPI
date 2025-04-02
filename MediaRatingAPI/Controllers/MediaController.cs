@@ -40,5 +40,30 @@ namespace MediaRatingAPI.Controllers
         {
             return Ok(medias);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<Media> GetMediaById(int id)
+        {
+            var media = medias.FirstOrDefault(x => x.Id == id);
+            if (media == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(media);
+        }
+
+        [HttpPost]
+        public ActionResult<Media> AddMedia(Media newMedia)
+        {
+            if (newMedia == null)
+            {
+                return BadRequest();
+            }
+
+            newMedia.Id = medias.Max(m => m.Id) + 1;
+            medias.Add(newMedia);
+            return CreatedAtAction(nameof(GetMediaById), new { id = newMedia.Id }, newMedia);
+        }
     }
 }
